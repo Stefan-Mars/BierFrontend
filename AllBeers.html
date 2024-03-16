@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Beer</title>
+    <style>
+        body {
+            padding: 20px;
+        }
+
+        .beer-tile {
+            width: 300px;
+            height: 300px; 
+            border: 1px solid #ccc;
+            margin: 10px;
+            padding: 10px;
+            float: left;
+            overflow: auto; 
+            cursor: pointer; /* Add cursor pointer to indicate clickable */
+        }
+
+        .beer-tile h2 {
+            margin-top: 0; 
+        }
+    </style>
+</head>
+<body>
+
+<div id="beer-container">
+</div>
+
+<script>
+    function fetchBeers() {
+        var xhr = new XMLHttpRequest();
+        xhr.open('GET', 'http://localhost/BierAPI/beers', true);
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState === 4 && xhr.status === 200) {
+                var beers = JSON.parse(xhr.responseText);
+                displayBeers(beers);
+            }
+        };
+        xhr.send();
+    }
+
+    function displayBeers(beers) {
+        var beerContainer = document.getElementById('beer-container');
+        beerContainer.innerHTML = ''; 
+        if (beers.length > 0) {
+            beers.forEach(function (beer) {
+                var beerTile = document.createElement('div');
+                beerTile.className = 'beer-tile';
+                beerTile.innerHTML = '<h2>' + beer.name + '</h2>' +
+                    '<p>Brewer: ' + beer.brewer + '</p>' +
+                    '<p>Type: ' + beer.type + '</p>' +
+                    '<p>Yeast: ' + beer.yeast + '</p>'+
+                    '<p>Percentage: ' + beer.perc + '</p>'+
+                    '<p>Purchase Price: ' + beer.purchase_price + '</p>';
+                beerTile.onclick = function() {
+                    // Redirect to new page with information about the specific beer
+                    window.location.href = 'ShowOneBeer.html?id=' + beer.id;
+                };
+                beerContainer.appendChild(beerTile);
+            });
+        } else {
+            beerContainer.innerHTML = '<p>No beers found</p>';
+        }
+    }
+
+    window.onload = fetchBeers;
+</script>
+
+</body>
+</html>

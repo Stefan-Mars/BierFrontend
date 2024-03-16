@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Beer</title>
+</head>
+<body>
+
+<div id="beer-details">
+    <h1>Beer Details</h1>
+    <div id="beer-info"></div>
+</div>
+
+<script>
+    function getUrlParameter(name) {
+        name = name.replace(/[[]/, '\\[').replace(/[\]]/, '\\]');
+        var regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
+        var results = regex.exec(location.search);
+        return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
+    };
+
+    var id = getUrlParameter('id');
+
+    var xhr = new XMLHttpRequest();
+    xhr.open('GET', 'http://localhost/BierAPI/beer/' + id, true);
+    xhr.onreadystatechange = function () {
+        if (xhr.readyState === 4 && xhr.status === 200) {
+            var beer = JSON.parse(xhr.responseText);
+            displayBeer(beer);
+        }
+    };
+    xhr.send();
+    
+
+    function displayBeer(beer) {
+        var beerInfo = document.getElementById('beer-info');
+        beerInfo.innerHTML = '<h2>' + beer.name + '</h2>' +
+            '<p>Brewer: ' + beer.brewer + '</p>' +
+            '<p>Type: ' + beer.type + '</p>' +
+            '<p>Yeast: ' + beer.yeast + '</p>'+
+            '<p>Percentage: ' + beer.perc + '</p>'+
+            '<p>Purchase Price: ' + beer.purchase_price + '</p>';
+    }
+</script>
+
+</body>
+</html>
