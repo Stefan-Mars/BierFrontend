@@ -17,7 +17,7 @@
             padding: 10px;
             float: left;
             overflow: auto; 
-            cursor: pointer; /* Add cursor pointer to indicate clickable */
+            cursor: pointer; 
         }
 
         .beer-tile h2 {
@@ -57,7 +57,6 @@
                     '<p>Percentage: ' + beer.perc + '</p>'+
                     '<p>Purchase Price: ' + beer.purchase_price + '</p>';
                 beerTile.onclick = function() {
-                    // Redirect to new page with information about the specific beer
                     window.location.href = 'ShowOneBeer.html?id=' + beer.id;
                 };
                 beerContainer.appendChild(beerTile);
