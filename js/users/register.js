@@ -6,7 +6,7 @@ function registerUser(event) {
     var passwordInput = document.getElementById('password').value;
 
     var xhr = new XMLHttpRequest();
-    xhr.open('POST', 'http://localhost/BierAPI/createUser', true);
+    xhr.open('POST', 'http://localhost/BierAPI/registerUser', true);
     xhr.setRequestHeader('Content-Type', 'application/json');
     xhr.onreadystatechange = function () {
         if (xhr.readyState === 4) {
