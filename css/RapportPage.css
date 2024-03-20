@@ -1,0 +1,41 @@
+body {
+
+    font-family: "Instrument Sans", sans-serif;
+}
+
+.beer-table {
+    border-collapse: collapse;
+    width: 70%;
+    margin: 0 auto;
+}
+
+.beer-table tr {
+    border: 1px solid gray;
+    cursor: pointer;
+}
+
+.beer-table td {
+    padding: 5px;
+}
+
+.beer-name {
+    font-weight: bold;
+}
+
+#table-container {
+    display: inline-flex;
+    flex-wrap: wrap;
+}
+
+.div-container {
+    width: 50%;
+}
+
+.title-desc {
+    text-align: center;
+    font-weight: bold;
+}
+
+.fa-star {
+    color: orange;
+}
