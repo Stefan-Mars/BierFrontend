@@ -11,9 +11,18 @@ body {
     padding: 10px;
     float: left;
     overflow: auto;
-    cursor: pointer;
 }
 
 .beer-tile h2 {
     margin-top: 0;
+}
+
+.beer-name {
+    text-align: center;
+    cursor: pointer;
+}
+
+.beer-name:hover { 
+    scale: 1.05;
+    transition: 0.3s;
 }
