@@ -2,17 +2,17 @@
 function checkLoginStatus() {
 
     fetch('http://localhost/BierAPI/checkLogin')
-    .then(response => response.json())
-    .then(data => {
-        if (data.logged_in) {
-            console.log('User is logged in.');
-        } else {
-            console.log('User is not logged in.');
-        }
-    })
-    .catch(error => {
-        console.error('Error:', error);
-    });
+        .then(response => response.json())
+        .then(data => {
+            if (data.logged_in) {
+                console.log('User is logged in.');
+            } else {
+                console.log('User is not logged in.');
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
 }
 
 
