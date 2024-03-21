@@ -5,9 +5,9 @@ function checkLoginStatus() {
     .then(response => response.json())
     .then(data => {
         if (data.logged_in) {
-            console.log('User is logged in.');
+            console.log(true);
         } else {
-            console.log('User is not logged in.');
+            console.log(false);
         }
     })
     .catch(error => {
@@ -16,33 +16,34 @@ function checkLoginStatus() {
 }
 
 
-
-
-function registerUser(event) {
+function loginUser(event) {
     event.preventDefault();
 
-    var nameInput = document.getElementById('name').value;
     var emailInput = document.getElementById('email').value;
     var passwordInput = document.getElementById('password').value;
 
     var xhr = new XMLHttpRequest();
-    xhr.open('POST', 'http://localhost/BierAPI/register', true);
+    xhr.open('POST', 'http://localhost/BierAPI/login', true);
     xhr.setRequestHeader('Content-Type', 'application/json');
     xhr.onreadystatechange = function () {
         if (xhr.readyState === 4) {
+            console.log(xhr.responseText);
             if (xhr.status === 200) {
-                var response = JSON.parse(xhr.responseText);
-                if (response[0].succes) {
-                    alert('User registered successfully');
-                    window.location.href = '../beers/index.html';
-
-                } else if (response.error) {
-                    alert('Error: ' + response.error);
+                try {
+                    var response = JSON.parse(xhr.responseText);
+                    if (response.success) {
+                        alert('Login successful');
+                        window.location.href = '../beers/index.html';
+                    } else {
+                        alert('Login failed: Invalid email or password');
+                    }
+                } catch (error) {
+                    console.error('Error parsing JSON:', error);
                 }
             } else {
                 alert('Error: ' + xhr.status);
             }
         }
     };
-    xhr.send(JSON.stringify({ name: nameInput, email: emailInput, password: passwordInput }));
+    xhr.send(JSON.stringify({ email: emailInput, password: passwordInput }));
 }
