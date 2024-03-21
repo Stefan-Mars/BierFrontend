@@ -32,7 +32,7 @@ function registerUser(event) {
         if (xhr.readyState === 4) {
             if (xhr.status === 200) {
                 var response = JSON.parse(xhr.responseText);
-                if (response[0].succes) {
+                if (response['success']) {
                     alert('User registered successfully');
                     window.location.href = '../beers/index.html';
 
