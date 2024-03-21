@@ -1,17 +1,71 @@
+/* style.css */
+
+/* Body styles */
 body {
     padding: 20px;
     font-family: "Instrument Sans", sans-serif;
+    margin: 0;
+}
+
+/* Header styles */
+header {
+    text-align: center;
+}
+
+h1 {
+    margin: 0;
+}
+
+/* Navigation bar styles */
+nav {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.navbar {
+    display: inline-block;
+}
+
+.navbar a {
+    color: #333;
+    text-decoration: none;
+    padding: 10px 20px;
+    margin: 0 10px;
+    border-radius: 5px;
+    background-color: #f0f0f0;
+}
+
+.navbar a:hover {
+    background-color: #ccc;
+}
+
+/* Search bar styles */
+#searchContainer {
+    text-align: center;
+    margin: 20px auto;
+}
+
+#searchInput {
+    width: 60%;
+    padding: 10px;
+    box-sizing: border-box;
+}
+
+/* Beer tile styles */
+#beer-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
 }
 
 .beer-tile {
     width: 250px;
     height: 310px;
-    box-shadow: 0px 0px 2px 2px gray;
+    box-shadow: 0px 0px 1px 1px gray;
     margin: 10px;
     padding: 10px;
-    float: left;
-    overflow: auto;
     cursor: pointer;
+    overflow: auto;
 }
 
 .beer-tile h2 {
