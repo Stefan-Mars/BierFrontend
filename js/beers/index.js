@@ -1,6 +1,47 @@
-var allBeers = [];
 
-function fetchBeers() {
+    var allBeers = [];
+
+    function logout() {
+        fetch('http://localhost/BierAPI/logout', {
+            method: 'POST',
+            credentials: 'same-origin' 
+        })
+        .then(response => {
+            if (response.ok) {
+    
+                console.log('Logout successful.');
+    
+                window.location.href = '../beers/index.html';
+            } else {
+                console.error('Logout failed.');
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
+    }
+function checkLoginStatus() {
+    fetch('http://localhost/BierAPI/checkLogin')
+    .then(response => response.json())
+    .then(data => {
+        if (data.logged_in) {
+            
+            document.getElementById('logout').style.display = 'block';
+            document.getElementById('login').style.display = 'none';
+            return true;
+        } else {
+           
+            document.getElementById('login').style.display = 'block';
+            document.getElementById('logout').style.display = 'none';
+            return false;
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+    });
+}
+
+    function fetchBeers() {
     var xhr = new XMLHttpRequest();
     xhr.open("GET", "http://localhost/BierAPI/beers", true);
     xhr.onreadystatechange = function () {
@@ -76,4 +117,9 @@ function generateRatingStars(rating) {
     });
     displayBeers(filteredBeers);
     }
-window.onload = fetchBeers;
+
+
+window.onload = function() {
+    checkLoginStatus()
+    fetchBeers()
+};
