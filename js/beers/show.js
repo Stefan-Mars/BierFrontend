@@ -39,22 +39,50 @@ function fetchComments(beerId) {
     };
     xhr.send();
 }
+async function fetchUserName(userId) {
+    try {
+        const response = await fetch('http://localhost/BierAPI/user/' + userId);
+        const data = await response.json();
+        return data.name;
+    } catch (error) {
+        console.error('Error fetching user name:', error);
+        return 'Unknown';
+    }
+}
 
-function displayComments(comments) {
+async function displayComments(comments) {
     var commentsList = document.getElementById('comments-list');
     commentsList.innerHTML = '';
+
     if (comments.length > 0) {
-        comments.forEach(function (comment) {
-            var listItem = document.createElement('li');
-            listItem.textContent = comment.content;
+        for (const comment of comments) {
+            var listItem = document.createElement('div');
+            listItem.classList = 'comment-card';
+            var commentText = document.createElement('div');
+            var userName = document.createElement('div');
+
+            commentText.textContent = comment.content;
+
+            try {
+                const name = await fetchUserName(comment.user_id);
+                userName.textContent = name;
+            } catch (error) {
+                console.error('Error fetching user name:', error);
+                userName.textContent = 'By: Unknown';
+            }
+
+            listItem.appendChild(commentText);
+            listItem.appendChild(userName);
             commentsList.appendChild(listItem);
-        });
+        }
     } else {
         var noCommentsItem = document.createElement('li');
         noCommentsItem.textContent = 'No comments available';
         commentsList.appendChild(noCommentsItem);
     }
 }
+
+
 
 function addComment() {
     var commentInput = document.getElementById('comment-input').value;
