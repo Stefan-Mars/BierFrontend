@@ -34,10 +34,31 @@ function fetchComments(beerId) {
     xhr.onreadystatechange = function () {
         if (xhr.readyState === 4 && xhr.status === 200) {
             var comments = JSON.parse(xhr.responseText);
-            displayComments(comments);
+            fetchUserNames(comments);
         }
     };
     xhr.send();
+}
+
+function fetchUserNames(comments) {
+    var userIds = Array.from(new Set(comments.map(comment => comment.user_id)));
+
+    userIds.forEach(function (userId) {
+        var userXhr = new XMLHttpRequest();
+        userXhr.open('GET', 'http://localhost/BierAPI/user/' + userId, true);
+        userXhr.onreadystatechange = function () {
+            if (userXhr.readyState === 4 && userXhr.status === 200) {
+                var user = JSON.parse(userXhr.responseText);
+                comments.forEach(function (comment) {
+                    if (comment.user_id === userId) {
+                        comment.user_name = user.name; 
+                    }
+                });
+                displayComments(comments);
+            }
+        };
+        userXhr.send();
+    });
 }
 
 function displayComments(comments) {
@@ -46,7 +67,15 @@ function displayComments(comments) {
     if (comments.length > 0) {
         comments.forEach(function (comment) {
             var listItem = document.createElement('li');
-            listItem.textContent = comment.content;
+            var commentText = document.createElement('div');
+            commentText.textContent = comment.content;
+
+            var userName = document.createElement('div');
+            userName.textContent =  comment.user_name;
+
+            listItem.appendChild(commentText);
+            listItem.appendChild(userName);
+
             commentsList.appendChild(listItem);
         });
     } else {
@@ -56,21 +85,47 @@ function displayComments(comments) {
     }
 }
 
+
+function checkLoginStatus() {
+    return fetch('http://localhost/BierAPI/checkLogin')
+        .then(response => response.json())
+        .then(data => {
+            return data.logged_in;
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            return false;
+        });
+}
+
 function addComment() {
     var commentInput = document.getElementById('comment-input').value;
+
+    var userId = checkLoginStatus(); 
+    if (!userId) {
+        alert('Please log in to add a comment');
+        return;
+    }
+
     var xhr = new XMLHttpRequest();
     xhr.open('POST', 'http://localhost/BierAPI/createComment', true);
     xhr.setRequestHeader('Content-Type', 'application/json');
     xhr.onreadystatechange = function () {
-        if (xhr.readyState === 4 && xhr.status === 200) {
-            var response = JSON.parse(xhr.responseText);
-            if (response.message) {
-                fetchComments(id);
-            } else if (response.error) {
-                alert('Error: ' + response.error);
+        if (xhr.readyState === 4) {
+            if (xhr.status === 200) {
+                var response = JSON.parse(xhr.responseText);
+                if (response.message) {
+                    fetchComments(id);
+                } else if (response.error) {
+                    alert('Error: ' + response.error);
+                }
+            } else {
+
+                alert('Error: ' + xhr.status);
             }
         }
     };
-    xhr.send(JSON.stringify({ beer_id: id, content: commentInput }));
+    
 
+    xhr.send(JSON.stringify({ beer_id: id, content: commentInput, user_id: userId }));
 }
