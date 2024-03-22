@@ -77,7 +77,7 @@ async function displayComments(comments) {
         }
     } else {
         var noCommentsItem = document.createElement('li');
-        noCommentsItem.textContent = 'No comments available';
+        noCommentsItem.textContent = 'No reviews available';
         commentsList.appendChild(noCommentsItem);
     }
 }
@@ -88,7 +88,7 @@ function addComment() {
     var commentInput = document.getElementById('comment-input').value;
     var stars = document.querySelectorAll('.star');
     var rating = 0;
-    stars.forEach(function(star) {
+    stars.forEach(function (star) {
         if (star.classList.contains('filled')) {
             rating = parseInt(star.id[0]);
         }
@@ -116,7 +116,7 @@ document.addEventListener('DOMContentLoaded', function () {
     stars.forEach(function (star) {
         star.addEventListener('click', function () {
             var clickedRating = parseInt(this.id[0]);
-            
+
             stars.forEach(function (star) {
                 star.classList.remove('filled');
             });

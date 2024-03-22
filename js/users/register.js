@@ -25,6 +25,11 @@ function registerUser(event) {
     var emailInput = document.getElementById('email').value;
     var passwordInput = document.getElementById('password').value;
 
+    if (!nameInput.trim() || !emailInput.trim() || !passwordInput.trim()) {
+        alert("Please fill in all the fields.");
+        return;
+    }
+
     var xhr = new XMLHttpRequest();
     xhr.open('POST', 'http://localhost/BierAPI/register', true);
     xhr.setRequestHeader('Content-Type', 'application/json');
