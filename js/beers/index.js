@@ -38,7 +38,10 @@ function displayBeers(beers) {
         beers.forEach(function (beer) {
             var beerTile = document.createElement("div");
             beerTile.className = "beer-tile";
-            beerTile.innerHTML =
+            beerTile.innerHTML =                
+                '<div class="rating-container">' +
+                generateRatingStars(beer.rating, beer.id) +
+                "</div>"+
                 '<h2 class="beer-name">' +
                 beer.name +
                 "</h2>" +
@@ -56,10 +59,7 @@ function displayBeers(beers) {
                 "</p>" +
                 "<p>Purchase Price: " +
                 beer.purchase_price +
-                "</p>" +
-                '<div class="rating-container">' +
-                generateRatingStars(beer.rating, beer.id) +
-                "</div>";
+                "</p>";
 
             var beerNameElement = beerTile.querySelector('.beer-name');
             beerNameElement.onclick = function () {
