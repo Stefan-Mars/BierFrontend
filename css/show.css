@@ -1,3 +1,117 @@
-.comment-card {
-    box-shadow: 0px 0px 1px 1px gray;
+.container {
+    max-width: 800px;
+    margin: 2% auto;
+    background-color: #fff;
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.1);
+}
+
+body {
+    font-family: "Instrument Sans", sans-serif;
+    background-color: #ebe8e8;
+    margin: 0;
+}
+
+header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+}
+
+.back-button {
+    color: #333;
+    text-decoration: none;
+    font-size: 20px;
+    position: absolute;
+    left: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.back-button i {
+    font-size: inherit;
+}
+
+.back-button:hover {
+    color: #f0ad4e;
+}
+
+h1 {
+    margin: 0;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+#comments-container {
+    margin-top: 30px;
+}
+
+#comments-container h2 {
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+#comments-list {
+    list-style-type: none;
+    padding: 0;
+}
+
+.comment {
+    background-color: #fff;
+    border-radius: 5px;
+    padding: 10px;
+    margin-bottom: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.comment:last-child {
+    margin-bottom: 0;
+}
+
+#comment-form {
+    margin-top: 30px;
+}
+
+#comment-form h2 {
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+#comment-input {
+    width: calc(100% - 80px);
+    padding: 10px;
+    margin-right: 10px;
+    border-radius: 5px 0 0 5px;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+}
+
+#comment-input:focus {
+    outline: none;
+    border-color: #333;
+}
+
+#comment-form button {
+    padding: 10px 20px;
+    background-color: #ffcc00;
+    color: #333;
+    border: none;
+    border-radius: 0 5px 5px 0;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+#comment-form button:hover {
+    background-color: #f0ad4e;
+}
+
+@media screen and (max-width: 768px) {
+    #comment-input {
+        width: 100%;
+        margin-right: 0;
+        margin-bottom: 10px;
+        border-radius: 5px;
+    }
 }
