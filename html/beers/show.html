@@ -11,6 +11,7 @@
       rel="stylesheet"
     />
     <link rel="stylesheet" type="text/css" href="../../css/show.css" />
+        <link rel="stylesheet" type="text/css" href="../../css/style.css" />
     <script
       src="https://kit.fontawesome.com/356eec8587.js"
       crossorigin="anonymous"
@@ -31,15 +32,21 @@
         <ul id="comments-list"></ul>
       </div>
       <div id="comment-form">
-        <h2>Add a Comment</h2>
-        <input
-          type="text"
-          id="comment-input"
-          placeholder="Enter your comment"
-        />
-        <button onclick="addComment()">Submit</button>
-      </div>
+           <h2>Add a Review</h2>
+        <div class="rating-container">
+            <div class="star" id="1star">&#9734;</div>
+            <div class="star" id="2star">&#9734;</div>
+            <div class="star" id="3star">&#9734;</div>
+            <div class="star" id="4star">&#9734;</div>
+            <div class="star" id="5star">&#9734;</div>
+        </div>
+        <div id="comment-form">
+            <input type="text" id="comment-input" placeholder="Enter your Review">
+            <button id="comment-button" onclick="addComment()">Submit</button>
+            <a id="comment-login-text" href="../users/login.html">You need to login to place a rating</a>
+        </div>
     </div>
+
 
     <script src="../../js/beers/show.js"></script>
   </body>

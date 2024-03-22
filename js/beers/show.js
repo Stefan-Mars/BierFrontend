@@ -61,7 +61,7 @@ async function displayComments(comments) {
             var commentText = document.createElement('div');
             var userName = document.createElement('div');
 
-            commentText.textContent = comment.content;
+            commentText.textContent = comment.note;
 
             try {
                 const name = await fetchUserName(comment.user_id);
@@ -77,7 +77,7 @@ async function displayComments(comments) {
         }
     } else {
         var noCommentsItem = document.createElement('li');
-        noCommentsItem.textContent = 'No comments available';
+        noCommentsItem.textContent = 'No reviews available';
         commentsList.appendChild(noCommentsItem);
     }
 }
@@ -86,6 +86,14 @@ async function displayComments(comments) {
 
 function addComment() {
     var commentInput = document.getElementById('comment-input').value;
+    var stars = document.querySelectorAll('.star');
+    var rating = 0;
+    stars.forEach(function (star) {
+        if (star.classList.contains('filled')) {
+            rating = parseInt(star.id[0]);
+        }
+    });
+
     var xhr = new XMLHttpRequest();
     xhr.open('POST', 'http://localhost/BierAPI/createComment', true);
     xhr.setRequestHeader('Content-Type', 'application/json');
@@ -99,6 +107,57 @@ function addComment() {
             }
         }
     };
-    xhr.send(JSON.stringify({ beer_id: id, content: commentInput }));
+    xhr.send(JSON.stringify({ beer_id: id, note: commentInput, rating: rating }));
+}
 
+document.addEventListener('DOMContentLoaded', function () {
+    var stars = document.querySelectorAll('.star');
+
+    stars.forEach(function (star) {
+        star.addEventListener('click', function () {
+            var clickedRating = parseInt(this.id[0]);
+
+            stars.forEach(function (star) {
+                star.classList.remove('filled');
+            });
+
+            for (var i = 1; i <= clickedRating; i++) {
+                document.getElementById(i + 'star').classList.add('filled');
+            }
+
+            console.log('Clicked rating: ' + clickedRating);
+        });
+    });
+});
+
+
+
+
+document.addEventListener("DOMContentLoaded", function () {
+    checkLoginStatus()
+        .then(loggedIn => {
+            if (loggedIn) {
+                document.getElementById("comment-input").style.display = "inline";
+                document.getElementById("comment-button").style.display = "inline";
+
+
+                document.getElementById("comment-login-text").style.display = "none";
+            } else {
+                document.getElementById("comment-input").style.display = "none";
+                document.getElementById("comment-button").style.display = "none";
+
+                document.getElementById("comment-login-text").style.display = "inline";
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
+});
+
+function checkLoginStatus() {
+    return fetch('http://localhost/BierAPI/checkLogin')
+        .then(response => response.json())
+        .then(data => {
+            return data.logged_in;
+        });
 }

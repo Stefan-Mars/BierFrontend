@@ -80,8 +80,22 @@ nav {
     scale: 1.05;
     transition: 0.3s;
 }
+
 .star {
-    font-size: 25px;
-    color: gold;
+    display: inline-block;
+    font-size: 24px;
     cursor: pointer;
+    color: #ffcc00;
+    position: relative;
+    /* Add this line */
+}
+
+.star.filled:before {
+    content: '\2605';
+    /* Unicode for star icon */
+    position: absolute;
+    left: 0;
+    top: 0;
+    color: gold;
+    /* Change this color to your desired filled color */
 }
