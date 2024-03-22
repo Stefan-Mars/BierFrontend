@@ -32,11 +32,11 @@ function logout() {
         });
 }
 function formatNumberWithComma(number) {
-    number = parseFloat(number); // Convert to integer
-    if (!isNaN(number)) { // Check if conversion was successful
+    number = parseFloat(number);
+    if (!isNaN(number)) {
         return number.toFixed(1).replace('.', ',');
     } else {
-        return '0'; // Or any default value you want to return when number is not a valid number
+        return '0';
     }
 }
 function displayBeers(beers) {

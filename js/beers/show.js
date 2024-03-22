@@ -17,10 +17,28 @@ xhr.onreadystatechange = function () {
     }
 };
 xhr.send();
-
+function formatNumberWithComma(number) {
+    number = parseFloat(number);
+    if (!isNaN(number)) {
+        return number.toFixed(1).replace('.', ',');
+    } else {
+        return '0';
+    }
+}
+function generateRatingStars(rating) {
+    var stars = "";
+    for (var i = 1; i <= 5; i++) {
+        if (i <= rating) {
+            stars += '<span class="star" data-rating="' + i + '">★</span>';
+        } else {
+            stars += '<span class="star" data-rating="' + i + '">☆</span>';
+        }
+    }
+    return stars;
+}
 function displayBeer(beer) {
     var beerInfo = document.getElementById('beer-info');
-    beerInfo.innerHTML = '<h2>' + beer.name + '</h2>' +
+    beerInfo.innerHTML = '<h2>' + beer.name + ' ' + generateRatingStars(beer.average_rating) + '(' + formatNumberWithComma(beer.average_rating) + ')</h2>' +
         '<p>Brewer: ' + beer.brewer + '</p>' +
         '<p>Type: ' + beer.type + '</p>' +
         '<p>Yeast: ' + beer.yeast + '</p>' +
@@ -59,20 +77,22 @@ async function displayComments(comments) {
             var listItem = document.createElement('div');
             listItem.classList = 'comment-card';
             var commentText = document.createElement('div');
-            var userName = document.createElement('div');
+            var stars = document.createElement('div');
+
 
             commentText.textContent = comment.note;
 
             try {
                 const name = await fetchUserName(comment.user_id);
-                userName.textContent = name;
+                stars.innerHTML = generateRatingStars(comment.stars) + '' + name;
             } catch (error) {
                 console.error('Error fetching user name:', error);
                 userName.textContent = 'By: Unknown';
             }
 
+            listItem.appendChild(stars);
             listItem.appendChild(commentText);
-            listItem.appendChild(userName);
+
             commentsList.appendChild(listItem);
         }
     } else {
@@ -99,6 +119,7 @@ function addComment() {
     xhr.setRequestHeader('Content-Type', 'application/json');
     xhr.onreadystatechange = function () {
         if (xhr.readyState === 4 && xhr.status === 200) {
+            console.log(xhr.responseText);
             var response = JSON.parse(xhr.responseText);
             if (response.message) {
                 fetchComments(id);

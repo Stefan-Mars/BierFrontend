@@ -7,7 +7,6 @@ function fetchBeers() {
         if (xhr.readyState === 4 && xhr.status === 200) {
             var beers = JSON.parse(xhr.responseText);
 
-            // Handle null average_rating values and set them to 0
             beers.forEach(function (beer) {
                 if (!beer.average_rating) {
                     beer.average_rating = 0;
@@ -72,31 +71,25 @@ function fetchBeers() {
 
 
             beers.forEach(function (beer) {
-                if (!beer.average_rating) {
-                    beer.average_rating = 0;
-                }
+                var ratingsXhr = new XMLHttpRequest();
+                ratingsXhr.open("GET", "http://localhost/BierAPI/comments/" + beer.beer_id, true);
+                ratingsXhr.onreadystatechange = function () {
+                    if (ratingsXhr.readyState === 4 && ratingsXhr.status === 200) {
+                        var ratings = JSON.parse(ratingsXhr.responseText);
+                        beer.numRatings = ratings.length || 0;
+
+                        beers.sort(function (a, b) {
+                            return b.numRatings - a.numRatings;
+                        });
+
+                        displayTopRatedBeers(beers.slice(0, 10));
+                    }
+                };
+                ratingsXhr.send();
             });
 
-            // Calculate total number of ratings per beer
-            beers.forEach(function (beer) {
-                var totalRatings = 0;
-                // Check if ratings array exists
-                if (beer.average_rating && beer.average_rating.length > 0) {
-                    // Iterate through ratings array and count total ratings
-                    beer.rating.forEach(function (rating) {
-                        totalRatings++;
-                    });
-                }
-                beer.total_ratings = totalRatings;
-            });
 
-            // Sort beers by total ratings in descending order
-            beers.sort(function (a, b) {
-                return b.total_ratings - a.total_ratings;
-            });
 
-            // Display the top 10 beers with the most ratings
-            displayTopRatedBeers(beers.slice(0, 10));
 
 
 
@@ -138,7 +131,7 @@ function displayBestRatings(beers) {
                     
                 `;
             beerTile.onclick = function () {
-                window.location.href = "beers/show.html?id=" + beer.id;
+                window.location.href = "beers/show.html?id=" + beer.beer_id;
             };
             beerContainer.appendChild(beerTile);
         });
@@ -217,7 +210,6 @@ function displayBestTypes(types) {
 
 
 function displayTopRatedBeers(beers) {
-    console.log(beers);
     var beerContainer = document.getElementById("beer-table-most");
     beerContainer.innerHTML = "";
 
@@ -234,12 +226,13 @@ function displayTopRatedBeers(beers) {
 
     if (beers.length > 0) {
         beers.forEach(function (beer) {
+            console.log(beer);
             var beerTile = document.createElement("tr");
 
             beerTile.innerHTML =
                 `
                     <td">${beer.name}</td>
-                    <td>${beer.total_ratings}</td>
+                    <td>${beer.numRatings}</td>
                     
                 `;
             beerContainer.appendChild(beerTile);
