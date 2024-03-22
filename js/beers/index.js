@@ -31,6 +31,14 @@ function logout() {
             console.error('Error:', error);
         });
 }
+function formatNumberWithComma(number) {
+    number = parseFloat(number); // Convert to integer
+    if (!isNaN(number)) { // Check if conversion was successful
+        return number.toFixed(1).replace('.', ',');
+    } else {
+        return '0'; // Or any default value you want to return when number is not a valid number
+    }
+}
 function displayBeers(beers) {
     var beerContainer = document.getElementById("beer-container");
     beerContainer.innerHTML = "";
@@ -38,10 +46,10 @@ function displayBeers(beers) {
         beers.forEach(function (beer) {
             var beerTile = document.createElement("div");
             beerTile.className = "beer-tile";
-            beerTile.innerHTML =                
+            beerTile.innerHTML =
                 '<div class="rating-container">' +
-                generateRatingStars(beer.rating, beer.id) +
-                "</div>"+
+                generateRatingStars(beer.average_rating, beer.id) + ' (' +
+                formatNumberWithComma(beer.average_rating) + ")</div>" +
                 '<h2 class="beer-name">' +
                 beer.name +
                 "</h2>" +
@@ -63,7 +71,7 @@ function displayBeers(beers) {
 
             var beerNameElement = beerTile.querySelector('.beer-name');
             beerNameElement.onclick = function () {
-                window.location.href = "show.html?id=" + beer.id;
+                window.location.href = "show.html?id=" + beer.beer_id;
             };
 
             beerContainer.appendChild(beerTile);

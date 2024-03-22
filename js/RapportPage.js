@@ -2,7 +2,7 @@ var allBeers = [];
 
 function fetchBeers() {
     var xhr = new XMLHttpRequest();
-    xhr.open("GET", "http://localhost/BierAPI/AVG", true);
+    xhr.open("GET", "http://localhost/BierAPI/beers", true);
     xhr.onreadystatechange = function () {
         if (xhr.readyState === 4 && xhr.status === 200) {
             var beers = JSON.parse(xhr.responseText);
