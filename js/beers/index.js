@@ -39,7 +39,7 @@
                     beer.purchase_price +
                     "</p>" +
                     '<div class="rating-container">' +
-                    generateRatingStars(beer.rating, beer.id) +
+                        generateStars();
                     "</div>";
     
                 var beerNameElement = beerTile.querySelector('.beer-name');
@@ -53,17 +53,15 @@
             beerContainer.innerHTML = "<p>No beers found</p>";
         }
     }
-    function generateRatingStars(rating, beerId) {
-        var stars = "";
+
+    function generateStars() {
+        var starsHTML = '';
         for (var i = 1; i <= 5; i++) {
-            if (i <= rating) {
-                stars += '<span class="star" data-rating="' + i + '" data-beer-id="' + beerId + '">★</span>';
-            } else {
-                stars += '<span class="star" data-rating="' + i + '" data-beer-id="' + beerId + '">☆</span>';
-            }
+            starsHTML += '<span class="star" data-rating="' + i + '">&#9734;</span>';
         }
-        return stars;
+        return starsHTML;
     }
+    
     function filterBeers() {
     var searchTerm = document
         .getElementById("searchInput")

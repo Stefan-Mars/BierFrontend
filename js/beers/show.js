@@ -46,7 +46,7 @@ function displayComments(comments) {
     if (comments.length > 0) {
         comments.forEach(function (comment) {
             var listItem = document.createElement('li');
-            listItem.textContent = comment.content;
+            listItem.textContent = comment.note;
             commentsList.appendChild(listItem);
         });
     } else {
@@ -58,6 +58,14 @@ function displayComments(comments) {
 
 function addComment() {
     var commentInput = document.getElementById('comment-input').value;
+    var stars = document.querySelectorAll('.star');
+    var rating = 0;
+    stars.forEach(function(star) {
+        if (star.classList.contains('filled')) {
+            rating = parseInt(star.id[0]);
+        }
+    });
+
     var xhr = new XMLHttpRequest();
     xhr.open('POST', 'http://localhost/BierAPI/createComment', true);
     xhr.setRequestHeader('Content-Type', 'application/json');
@@ -71,6 +79,26 @@ function addComment() {
             }
         }
     };
-    xhr.send(JSON.stringify({ beer_id: id, content: commentInput }));
-
+    xhr.send(JSON.stringify({ beer_id: id, note: commentInput, rating: rating }));
 }
+
+document.addEventListener('DOMContentLoaded', function () {
+    var stars = document.querySelectorAll('.star');
+
+    stars.forEach(function (star) {
+        star.addEventListener('click', function () {
+            var clickedRating = parseInt(this.id[0]);
+            
+            stars.forEach(function (star) {
+                star.classList.remove('filled');
+            });
+
+            for (var i = 1; i <= clickedRating; i++) {
+                document.getElementById(i + 'star').classList.add('filled');
+            }
+
+            console.log('Clicked rating: ' + clickedRating);
+        });
+    });
+});
+
