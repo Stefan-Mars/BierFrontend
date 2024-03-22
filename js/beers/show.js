@@ -102,3 +102,33 @@ function addComment() {
     xhr.send(JSON.stringify({ beer_id: id, content: commentInput }));
 
 }
+
+
+document.addEventListener("DOMContentLoaded", function () {
+    checkLoginStatus()
+        .then(loggedIn => {
+            if (loggedIn) {
+                document.getElementById("comment-input").style.display = "inline";
+                document.getElementById("comment-button").style.display = "inline";
+
+
+                document.getElementById("comment-login-text").style.display = "none";
+            } else {
+                document.getElementById("comment-input").style.display = "none";
+                document.getElementById("comment-button").style.display = "none";
+
+                document.getElementById("comment-login-text").style.display = "inline";
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
+});
+
+function checkLoginStatus() {
+    return fetch('http://localhost/BierAPI/checkLogin')
+        .then(response => response.json())
+        .then(data => {
+            return data.logged_in;
+        });
+}
