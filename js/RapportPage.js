@@ -226,7 +226,6 @@ function displayTopRatedBeers(beers) {
 
     if (beers.length > 0) {
         beers.forEach(function (beer) {
-            console.log(beer);
             var beerTile = document.createElement("tr");
 
             beerTile.innerHTML =
