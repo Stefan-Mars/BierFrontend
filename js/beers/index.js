@@ -64,8 +64,8 @@ function displayBeers(beers) {
                 "</p>" +
                 "<p>Procent: " +
                 beer.perc +
-                "</p>" +
-                "<p>Aankoopprijs: " +
+                "%</p>" +
+                "<p>Aankoopprijs: €" +
                 beer.purchase_price +
                 "</p>";
 
