@@ -87,15 +87,13 @@ nav {
     cursor: pointer;
     color: #ffcc00;
     position: relative;
-    /* Add this line */
 }
 
 .star.filled:before {
     content: '\2605';
-    /* Unicode for star icon */
     position: absolute;
     left: 0;
     top: 0;
     color: gold;
-    /* Change this color to your desired filled color */
+
 }
