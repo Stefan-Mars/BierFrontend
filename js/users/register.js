@@ -5,9 +5,9 @@ function checkLoginStatus() {
         .then(response => response.json())
         .then(data => {
             if (data.logged_in) {
-                console.log('User is logged in.');
+                console.log('Gebruiker is ingelogd.');
             } else {
-                console.log('User is not logged in.');
+                console.log('Gebruiker is niet ingelogd.');
             }
         })
         .catch(error => {
