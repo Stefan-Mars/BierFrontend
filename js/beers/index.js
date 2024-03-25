@@ -1,27 +1,23 @@
-
 var allBeers = [];
+
 function fetchBeers() {
-    var xhr = new XMLHttpRequest();
-    xhr.open("GET", "http://localhost/BierAPI/beers", true);
-    xhr.onreadystatechange = function () {
-        if (xhr.readyState === 4 && xhr.status === 200) {
-            var beers = JSON.parse(xhr.responseText);
-            allBeers = beers;
-            displayBeers(beers);
-        }
-    };
-    xhr.send();
+    axios.get("http://localhost/BierAPI/beers")
+        .then(response => {
+            allBeers = response.data;
+            displayBeers(allBeers);
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
 }
+
 function logout() {
-    fetch('http://localhost/BierAPI/logout', {
-        method: 'POST',
-        credentials: 'same-origin'
+    axios.post('http://localhost/BierAPI/logout', null, {
+        withCredentials: true
     })
         .then(response => {
-            if (response.ok) {
-
+            if (response.status === 200) {
                 console.log('Uitloggen gelukt.');
-
                 window.location.href = '../beers/index.html';
             } else {
                 console.error('Uitloggen is mislukt.');
@@ -31,6 +27,7 @@ function logout() {
             console.error('Error:', error);
         });
 }
+
 function formatNumberWithComma(number) {
     number = parseFloat(number);
     if (!isNaN(number)) {
@@ -39,6 +36,7 @@ function formatNumberWithComma(number) {
         return '0';
     }
 }
+
 function displayBeers(beers) {
     var beerContainer = document.getElementById("beer-container");
     beerContainer.innerHTML = "";
@@ -80,6 +78,7 @@ function displayBeers(beers) {
         beerContainer.innerHTML = "<p>Geen bier gevonden</p>";
     }
 }
+
 function generateRatingStars(rating, beerId) {
     var stars = "";
     for (var i = 1; i <= 5; i++) {
@@ -91,6 +90,7 @@ function generateRatingStars(rating, beerId) {
     }
     return stars;
 }
+
 document.addEventListener("DOMContentLoaded", function () {
     checkLoginStatus()
         .then(loggedIn => {
@@ -108,14 +108,13 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 function checkLoginStatus() {
-    return fetch('http://localhost/BierAPI/checkLogin')
-        .then(response => response.json())
-        .then(data => {
-            return data.logged_in;
+    return axios.get('http://localhost/BierAPI/checkLogin')
+        .then(response => response.data.logged_in)
+        .catch(error => {
+            console.error('Error:', error);
+            return false;
         });
 }
-
-
 
 function filterBeers() {
     var searchTerm = document
@@ -127,4 +126,5 @@ function filterBeers() {
     });
     displayBeers(filteredBeers);
 }
+
 window.onload = fetchBeers;
