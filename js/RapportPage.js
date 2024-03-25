@@ -197,7 +197,7 @@ function displayBestTypes(types) {
 
             beerTile.innerHTML =
                 `
-                    <td">${type.type}</td>
+                    <td>${type.type}</td>
                     <td><i class="fa-solid fa-star"></i> ${formatNumberWithComma(parseFloat(type.avgRating))}</td>
                     
                 `;
@@ -231,7 +231,7 @@ function displayTopRatedBeers(beers) {
 
             beerTile.innerHTML =
                 `
-                    <td">${beer.name}</td>
+                    <td>${beer.name}</td>
                     <td>${beer.numRatings}</td>
                     
                 `;
