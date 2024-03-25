@@ -32,7 +32,6 @@ h1 {
 
 .navbar {
     background-color: #333;
-    /* Dark grey */
     padding: 10px 0;
     text-align: center;
 }
@@ -44,12 +43,10 @@ h1 {
     margin: 0 10px;
     border-radius: 5px;
     background-color: #ffcc00;
-    /* Yellow */
 }
 
 .navbar a:hover {
     background-color: #f0ad4e;
-    /* Light orange */
 }
 
 #table-container {
@@ -72,9 +69,7 @@ h1 {
     padding: 10px 0;
     margin: 0;
     background-color: #ffcc00;
-    /* Yellow */
     color: #333;
-    /* Dark grey */
     border-top-left-radius: 10px;
     border-top-right-radius: 10px;
 }
@@ -86,7 +81,6 @@ h1 {
 
 .beer-table tr {
     border-bottom: 1px solid #ddd;
-    /* Light grey */
 }
 
 .beer-table tr:last-child {
