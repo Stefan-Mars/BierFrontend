@@ -110,9 +110,9 @@ function displayBestRatings(beers) {
 
     header.innerHTML =
         `
-            <td class="beer-name">Name</td>
+            <td class="beer-name">Naam</td>
             <td class="beer-name">Brouwer</td>
-            <td class="beer-name">Rating</td>
+            <td class="beer-name">Beoordeling</td>
             
         `;
 
@@ -136,7 +136,7 @@ function displayBestRatings(beers) {
             beerContainer.appendChild(beerTile);
         });
     } else {
-        beerContainer.innerHTML = "<p>No beers found</p>";
+        beerContainer.innerHTML = "<p>Geen bier gevonden</p>";
     }
 }
 
@@ -150,7 +150,7 @@ function displayBestBrewers(brewers) {
     header.innerHTML =
         `
             <td class="beer-name">Brouwer</td>
-            <td class="beer-name">Average</td>
+            <td class="beer-name">Gemiddelde</td>
             
         `;
 
@@ -169,7 +169,7 @@ function displayBestBrewers(brewers) {
             beerContainer.appendChild(beerTile);
         });
     } else {
-        beerContainer.innerHTML = "<p>No brewers found</p>";
+        beerContainer.innerHTML = "<p>Geen brouwers gevonden</p>";
     }
 }
 
@@ -185,7 +185,7 @@ function displayBestTypes(types) {
     header.innerHTML =
         `
             <td class="beer-name">Type</td>
-            <td class="beer-name">Average</td>
+            <td class="beer-name">Gemiddelde</td>
             
         `;
 
@@ -204,7 +204,7 @@ function displayBestTypes(types) {
             beerContainer.appendChild(beerTile);
         });
     } else {
-        beerContainer.innerHTML = "<p>No types found</p>";
+        beerContainer.innerHTML = "<p>Geen types gevonden</p>";
     }
 }
 
@@ -217,8 +217,8 @@ function displayTopRatedBeers(beers) {
 
     header.innerHTML =
         `
-            <td class="beer-name">Name</td>
-            <td class="beer-name">Count</td>
+            <td class="beer-name">Naam</td>
+            <td class="beer-name">Aantal</td>
             
         `;
 
@@ -238,7 +238,7 @@ function displayTopRatedBeers(beers) {
             beerContainer.appendChild(beerTile);
         });
     } else {
-        beerContainer.innerHTML = "<p>No beers found</p>";
+        beerContainer.innerHTML = "<p>Geen bier gevonden</p>";
     }
 }
 window.onload = fetchBeers;

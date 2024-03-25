@@ -20,11 +20,11 @@ function logout() {
         .then(response => {
             if (response.ok) {
 
-                console.log('Logout successful.');
+                console.log('Uitloggen gelukt.');
 
                 window.location.href = '../beers/index.html';
             } else {
-                console.error('Logout failed.');
+                console.error('Uitloggen is mislukt.');
             }
         })
         .catch(error => {
@@ -53,19 +53,19 @@ function displayBeers(beers) {
                 '<h2 class="beer-name">' +
                 beer.name +
                 "</h2>" +
-                "<p>Brewer: " +
+                "<p>Brouwer: " +
                 beer.brewer +
                 "</p>" +
                 "<p>Type: " +
                 beer.type +
                 "</p>" +
-                "<p>Yeast: " +
+                "<p>Gist: " +
                 beer.yeast +
                 "</p>" +
-                "<p>Percentage: " +
+                "<p>Procent: " +
                 beer.perc +
                 "</p>" +
-                "<p>Purchase Price: " +
+                "<p>Aankoopprijs: " +
                 beer.purchase_price +
                 "</p>";
 
@@ -77,7 +77,7 @@ function displayBeers(beers) {
             beerContainer.appendChild(beerTile);
         });
     } else {
-        beerContainer.innerHTML = "<p>No beers found</p>";
+        beerContainer.innerHTML = "<p>Geen bier gevonden</p>";
     }
 }
 function generateRatingStars(rating, beerId) {

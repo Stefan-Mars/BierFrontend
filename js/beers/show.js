@@ -39,11 +39,11 @@ function generateRatingStars(rating) {
 function displayBeer(beer) {
     var beerInfo = document.getElementById('beer-info');
     beerInfo.innerHTML = '<h2>' + beer.name + ' ' + generateRatingStars(beer.average_rating) + '(' + formatNumberWithComma(beer.average_rating) + ')</h2>' +
-        '<p>Brewer: ' + beer.brewer + '</p>' +
+        '<p>Brouwer: ' + beer.brewer + '</p>' +
         '<p>Type: ' + beer.type + '</p>' +
-        '<p>Yeast: ' + beer.yeast + '</p>' +
-        '<p>Percentage: ' + beer.perc + '</p>' +
-        '<p>Purchase Price: ' + beer.purchase_price + '</p>';
+        '<p>Gist: ' + beer.yeast + '</p>' +
+        '<p>Procent: ' + beer.perc + '</p>' +
+        '<p>Aankoopprijs: ' + beer.purchase_price + '</p>';
 }
 
 function fetchComments(beerId) {
@@ -97,7 +97,7 @@ async function displayComments(comments) {
         }
     } else {
         var noCommentsItem = document.createElement('li');
-        noCommentsItem.textContent = 'No reviews available';
+        noCommentsItem.textContent = 'Geen beoordelingen beschikbaar';
         commentsList.appendChild(noCommentsItem);
     }
 }
