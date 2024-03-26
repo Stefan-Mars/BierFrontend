@@ -24,15 +24,11 @@ function move() {
  // score = score + pluspoints;
   if (Ypos + stepY >= 600) {
     stepY = -stepY;
-    MoveDivje.style.background =
-      "radial-gradient(circle, rgba(4,105,175,1) 0%, rgba(0,137,255,1) 50%, rgba(0,255,236,1) 100%)";
     setscore()
     setLevels()
   }
   if (Ypos + stepY <= -20) {
     stepY = -stepY;
-    MoveDivje.style.background =
-      "radial-gradient(circle, rgba(11,175,4,1) 0%, rgba(0,255,10,1) 50%, rgba(54,255,0,1) 100%)";
   }
   if (Leftpos + stepX >= 785) {
     stepX = -stepX;

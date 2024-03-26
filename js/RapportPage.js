@@ -1,11 +1,9 @@
 var allBeers = [];
 
 function fetchBeers() {
-    var xhr = new XMLHttpRequest();
-    xhr.open("GET", "http://localhost/BierAPI/beers", true);
-    xhr.onreadystatechange = function () {
-        if (xhr.readyState === 4 && xhr.status === 200) {
-            var beers = JSON.parse(xhr.responseText);
+    axios.get('http://localhost/BierAPI/beers')
+        .then(response => {
+            var beers = response.data;
 
             beers.forEach(function (beer) {
                 if (!beer.average_rating) {
@@ -69,13 +67,10 @@ function fetchBeers() {
 
             displayBestRatings(beers.slice(0, 10));
 
-
             beers.forEach(function (beer) {
-                var ratingsXhr = new XMLHttpRequest();
-                ratingsXhr.open("GET", "http://localhost/BierAPI/comments/" + beer.beer_id, true);
-                ratingsXhr.onreadystatechange = function () {
-                    if (ratingsXhr.readyState === 4 && ratingsXhr.status === 200) {
-                        var ratings = JSON.parse(ratingsXhr.responseText);
+                axios.get('http://localhost/BierAPI/comments/' + beer.beer_id)
+                    .then(ratingsResponse => {
+                        var ratings = ratingsResponse.data;
                         beer.numRatings = ratings.length || 0;
 
                         beers.sort(function (a, b) {
@@ -83,25 +78,21 @@ function fetchBeers() {
                         });
 
                         displayTopRatedBeers(beers.slice(0, 10));
-                    }
-                };
-                ratingsXhr.send();
+                    })
+                    .catch(error => {
+                        console.error('Error fetching ratings:', error);
+                    });
             });
-
-
-
-
-
-
-        }
-    };
-    xhr.send();
+        })
+        .catch(error => {
+            console.error('Error fetching beers:', error);
+        });
 }
-
 
 function formatNumberWithComma(number) {
     return number.toFixed(1).replace('.', ',');
 }
+
 function displayBestRatings(beers) {
     var beerContainer = document.getElementById("beer-table-likes");
     beerContainer.innerHTML = "";
@@ -117,7 +108,6 @@ function displayBestRatings(beers) {
         `;
 
     beerContainer.appendChild(header);
-
 
     if (beers.length > 0) {
         beers.forEach(function (beer) {
@@ -139,7 +129,6 @@ function displayBestRatings(beers) {
         beerContainer.innerHTML = "<p>Geen bier gevonden</p>";
     }
 }
-
 
 function displayBestBrewers(brewers) {
     var beerContainer = document.getElementById("beer-table-brewers");
@@ -173,9 +162,6 @@ function displayBestBrewers(brewers) {
     }
 }
 
-
-
-
 function displayBestTypes(types) {
     var beerContainer = document.getElementById("beer-table-types");
     beerContainer.innerHTML = "";
@@ -208,7 +194,6 @@ function displayBestTypes(types) {
     }
 }
 
-
 function displayTopRatedBeers(beers) {
     var beerContainer = document.getElementById("beer-table-most");
     beerContainer.innerHTML = "";
@@ -226,7 +211,6 @@ function displayTopRatedBeers(beers) {
 
     if (beers.length > 0) {
         beers.forEach(function (beer) {
-            console.log(beer);
             var beerTile = document.createElement("tr");
 
             beerTile.innerHTML =

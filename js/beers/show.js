@@ -3,39 +3,20 @@ function getUrlParameter(name) {
     var regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
     var results = regex.exec(location.search);
     return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
-};
+}
 
 var id = getUrlParameter('id');
 
-var xhr = new XMLHttpRequest();
-xhr.open('GET', 'http://localhost/BierAPI/beer/' + id, true);
-xhr.onreadystatechange = function () {
-    if (xhr.readyState === 4 && xhr.status === 200) {
-        var beer = JSON.parse(xhr.responseText);
+axios.get('http://localhost/BierAPI/beer/' + id)
+    .then(function (response) {
+        var beer = response.data;
         displayBeer(beer);
         fetchComments(id);
-    }
-};
-xhr.send();
-function formatNumberWithComma(number) {
-    number = parseFloat(number);
-    if (!isNaN(number)) {
-        return number.toFixed(1).replace('.', ',');
-    } else {
-        return '0';
-    }
-}
-function generateRatingStars(rating) {
-    var stars = "";
-    for (var i = 1; i <= 5; i++) {
-        if (i <= rating) {
-            stars += '<span class="star" data-rating="' + i + '">★</span>';
-        } else {
-            stars += '<span class="star" data-rating="' + i + '">☆</span>';
-        }
-    }
-    return stars;
-}
+    })
+    .catch(function (error) {
+        console.error('Error fetching beer:', error);
+    });
+
 function displayBeer(beer) {
     var beerInfo = document.getElementById('beer-info');
     beerInfo.innerHTML = '<h2>' + beer.name + ' ' + generateRatingStars(beer.average_rating) + '(' + formatNumberWithComma(beer.average_rating) + ')</h2>' +
@@ -47,21 +28,20 @@ function displayBeer(beer) {
 }
 
 function fetchComments(beerId) {
-    var xhr = new XMLHttpRequest();
-    xhr.open('GET', 'http://localhost/BierAPI/comments/' + beerId, true);
-    xhr.onreadystatechange = function () {
-        if (xhr.readyState === 4 && xhr.status === 200) {
-            var comments = JSON.parse(xhr.responseText);
+    axios.get('http://localhost/BierAPI/comments/' + beerId)
+        .then(function (response) {
+            var comments = response.data;
             displayComments(comments);
-        }
-    };
-    xhr.send();
+        })
+        .catch(function (error) {
+            console.error('Error fetching comments:', error);
+        });
 }
+
 async function fetchUserName(userId) {
     try {
-        const response = await fetch('http://localhost/BierAPI/user/' + userId);
-        const data = await response.json();
-        return data.name;
+        const response = await axios.get('http://localhost/BierAPI/user/' + userId);
+        return response.data.name;
     } catch (error) {
         console.error('Error fetching user name:', error);
         return 'Unknown';
@@ -78,7 +58,6 @@ async function displayComments(comments) {
             listItem.classList = 'comment-card';
             var commentText = document.createElement('div');
             var stars = document.createElement('div');
-
 
             commentText.textContent = comment.note;
 
@@ -102,8 +81,6 @@ async function displayComments(comments) {
     }
 }
 
-
-
 function addComment() {
     var commentInput = document.getElementById('comment-input').value;
     var stars = document.querySelectorAll('.star');
@@ -114,21 +91,22 @@ function addComment() {
         }
     });
 
-    var xhr = new XMLHttpRequest();
-    xhr.open('POST', 'http://localhost/BierAPI/createComment', true);
-    xhr.setRequestHeader('Content-Type', 'application/json');
-    xhr.onreadystatechange = function () {
-        if (xhr.readyState === 4 && xhr.status === 200) {
-            console.log(xhr.responseText);
-            var response = JSON.parse(xhr.responseText);
-            if (response.message) {
+    axios.post('http://localhost/BierAPI/createComment', {
+        beer_id: id,
+        note: commentInput,
+        rating: rating
+    })
+        .then(function (response) {
+            window.location.href = '../beers/index.html';
+            if (response.data.message) {
                 fetchComments(id);
-            } else if (response.error) {
-                alert('Error: ' + response.error);
+            } else if (response.data.error) {
+                alert('Error: ' + response.data.error);
             }
-        }
-    };
-    xhr.send(JSON.stringify({ beer_id: id, note: commentInput, rating: rating }));
+        })
+        .catch(function (error) {
+            console.error('Error adding comment:', error);
+        });
 }
 
 document.addEventListener('DOMContentLoaded', function () {
@@ -150,9 +128,6 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     });
 });
-
-
-
 
 document.addEventListener("DOMContentLoaded", function () {
     checkLoginStatus()
@@ -176,9 +151,29 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 function checkLoginStatus() {
-    return fetch('http://localhost/BierAPI/checkLogin')
-        .then(response => response.json())
-        .then(data => {
-            return data.logged_in;
+    return axios.get('http://localhost/BierAPI/checkLogin')
+        .then(response => response.data.logged_in)
+        .catch(error => {
+            console.error('Error checking login status:', error);
+            return false;
         });
+}
+function generateRatingStars(rating) {
+    var stars = "";
+    for (var i = 1; i <= 5; i++) {
+        if (i <= rating) {
+            stars += '<span class="star" data-rating="' + i + '">★</span>';
+        } else {
+            stars += '<span class="star" data-rating="' + i + '">☆</span>';
+        }
+    }
+    return stars;
+}
+function formatNumberWithComma(number) {
+    number = parseFloat(number);
+    if (!isNaN(number)) {
+        return number.toFixed(1).replace('.', ',');
+    } else {
+        return '0';
+    }
 }
