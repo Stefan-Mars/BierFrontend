@@ -114,9 +114,6 @@ function checkLoginStatus() {
             return data.logged_in;
         });
 }
-
-
-
 function filterBeers() {
     var searchTerm = document
         .getElementById("searchInput")
@@ -127,4 +124,36 @@ function filterBeers() {
     });
     displayBeers(filteredBeers);
 }
+
+var sortByPercentageAscending = true;
+var sortByRatingAscending = true;
+
+// Sort by percentage
+function sortByPercentage(beers) {
+    beers.sort(function(a, b) {
+        if (sortByPercentageAscending) {
+            return parseFloat(a.perc) - parseFloat(b.perc);
+        } else {
+            return parseFloat(b.perc) - parseFloat(a.perc);
+        }
+    });
+    sortByPercentageAscending = !sortByPercentageAscending;
+    sortByRatingAscending = true; // Reset sorting order for rating
+    displayBeers(beers);
+}
+
+// Sort by rating
+function sortByRating(beers) {
+    beers.sort(function(a, b) {
+        if (sortByRatingAscending) {
+            return parseFloat(a.average_rating) - parseFloat(b.average_rating);
+        } else {
+            return parseFloat(b.average_rating) - parseFloat(a.average_rating);
+        }
+    });
+    sortByRatingAscending = !sortByRatingAscending;
+    sortByPercentageAscending = true; // Reset sorting order for percentage
+    displayBeers(beers);
+}
+
 window.onload = fetchBeers;

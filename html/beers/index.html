@@ -27,10 +27,18 @@
     </div>
   </nav>
   <div id="searchContainer">
-    <input type="text" id="searchInput" oninput="filterBeers()" placeholder="Search by name..." />
+         <input
+        type="text"
+        id="searchInput"
+        oninput="filterBeers()"
+        placeholder="Search by name..."
+      />  </div>
+<div id="sortButtons">
+    <button onclick="sortByPercentage(allBeers)">Sort by Percentage</button>
+    <button onclick="sortByRating(allBeers)">Sort by Rating</button>
   </div>
   <div id="beer-container"></div>
   <script src="../../js/beers/index.js"></script>
 </body>
 
-</html>
+</html
