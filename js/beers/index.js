@@ -28,14 +28,19 @@ function logout() {
         });
 }
 
-function formatNumberWithComma(number) {
+function formatNumberWithComma(number, numbersafterComma) {
     number = parseFloat(number);
     if (!isNaN(number)) {
-        return number.toFixed(1).replace('.', ',');
+        return number.toFixed(numbersafterComma).replace('.', ',');
     } else {
         return '0';
     }
 }
+function DecimalToPercentage(number) {
+    let percentage = number * 100;
+    return percentage;
+}
+
 
 function displayBeers(beers) {
     var beerContainer = document.getElementById("beer-container");
@@ -47,7 +52,7 @@ function displayBeers(beers) {
             beerTile.innerHTML =
                 '<div class="rating-container">' +
                 generateRatingStars(beer.average_rating, beer.id) + ' (' +
-                formatNumberWithComma(beer.average_rating) + ")</div>" +
+                formatNumberWithComma(beer.average_rating, 1) + ")</div>" +
                 '<h2 class="beer-name">' +
                 beer.name +
                 "</h2>" +
@@ -61,10 +66,10 @@ function displayBeers(beers) {
                 beer.yeast +
                 "</p>" +
                 "<p>Procent: " +
-                beer.perc +
+                formatNumberWithComma(DecimalToPercentage(beer.perc), 1) +
                 "%</p>" +
                 "<p>Aankoopprijs: €" +
-                beer.purchase_price +
+                formatNumberWithComma(beer.purchase_price, 2) +
                 "</p>";
 
             var beerNameElement = beerTile.querySelector('.beer-name');
