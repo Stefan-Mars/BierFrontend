@@ -30,15 +30,14 @@
     </div>
   </nav>
   <div id="searchContainer">
-         <input
-        type="text"
-        id="searchInput"
-        oninput="filterBeers()"
-        placeholder="Search by name..."
-      />  </div>
-<div id="sortButtons">
-    <button onclick="sortByPercentage(allBeers)">Sort by Percentage</button>
-    <button onclick="sortByRating(allBeers)">Sort by Rating</button>
+    <div class="dropdown">
+      <button class="dropbtn" onclick="toggleDropdown()">Sort by</button>
+      <div id="sortDropdown" class="dropdown-content">
+        <a href="#" onclick="sortByPercentage(allBeers)">Percentage</a>
+        <a href="#" onclick="sortByRating(allBeers)">Rating</a>
+      </div>
+    </div>
+    <input type="text" id="searchInput" oninput="filterBeers()" placeholder="Search by name...">
   </div>
   <div id="beer-container"></div>
   <script src="../../js/beers/index.js"></script>
