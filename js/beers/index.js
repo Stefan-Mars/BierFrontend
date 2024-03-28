@@ -161,7 +161,7 @@ function sortByRating(beers) {
     beers.sort(function (a, b) {
         var ratingA = parseFloat(a.average_rating);
         var ratingB = parseFloat(b.average_rating);
-        console.log("Rating A:", ratingA, "Rating B:", ratingB);
+        // console.log("Rating A:", ratingA, "Rating B:", ratingB);
         if (sortByRatingAscending) {
             return ratingA - ratingB;
         } else {
