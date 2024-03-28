@@ -97,12 +97,25 @@ function addComment() {
         rating: rating
     })
         .then(function (response) {
-            window.location.href = '../beers/index.html';
-            if (response.data.message) {
-                fetchComments(id);
-            } else if (response.data.error) {
-                alert('Error: ' + response.data.error);
-            }
+
+            var concatenatedJsonString = response.data;
+            var jsonStrings = concatenatedJsonString.split('}{');
+
+
+            jsonStrings.forEach(function (jsonString, index) {
+
+                jsonString = (index > 0 ? '{' : '') + jsonString + (index < jsonStrings.length - 1 ? '}' : '');
+
+
+                var jsonObj = JSON.parse(jsonString);
+
+                if (jsonObj.message) {
+                    fetchComments(id);
+                    window.location.href = '../beers/index.html';
+                } else if (jsonObj.error) {
+                    alert('Error: ' + jsonObj.error);
+                }
+            });
         })
         .catch(function (error) {
             console.error('Error adding comment:', error);
@@ -152,10 +165,16 @@ document.addEventListener("DOMContentLoaded", function () {
 
 function checkLoginStatus() {
     return axios.get('http://localhost/BierAPI/checkLogin')
-        .then(response => response.data.logged_in)
+        .then(response => {
+            if (response.data.logged_in) {
+
+                return true;
+            } else {
+                return false;
+            }
+        })
         .catch(error => {
-            console.error('Error checking login status:', error);
-            return false;
+            console.error('Error:', error);
         });
 }
 function generateRatingStars(rating) {

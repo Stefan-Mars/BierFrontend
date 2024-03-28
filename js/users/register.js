@@ -2,9 +2,9 @@ function checkLoginStatus() {
     return axios.get('http://localhost/BierAPI/checkLogin')
         .then(response => {
             if (response.data.logged_in) {
-                console.log('Gebruiker is ingelogd.');
+                return true;
             } else {
-                console.log('Gebruiker is niet ingelogd.');
+                return false;
             }
         })
         .catch(error => {

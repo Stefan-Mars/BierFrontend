@@ -2,9 +2,9 @@ function checkLoginStatus() {
     return axios.get('http://localhost/BierAPI/checkLogin')
         .then(response => {
             if (response.data.logged_in) {
-                console.log(true);
+                return true;
             } else {
-                console.log(false);
+                return false;
             }
         })
         .catch(error => {
@@ -24,6 +24,7 @@ function loginUser(event) {
     })
         .then(response => {
             if (response.data.success) {
+                console.log(response.data);
                 alert('Succesvol ingelogd');
                 window.location.href = '../beers/index.html';
             } else {

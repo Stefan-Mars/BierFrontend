@@ -112,15 +112,21 @@ document.addEventListener("DOMContentLoaded", function () {
         });
 });
 
+
 function checkLoginStatus() {
     return axios.get('http://localhost/BierAPI/checkLogin')
-        .then(response => response.data.logged_in)
+        .then(response => {
+            if (response.data.logged_in) {
+
+                return true;
+            } else {
+                return false;
+            }
+        })
         .catch(error => {
             console.error('Error:', error);
-            return false;
         });
 }
-
 function filterBeers() {
     var searchTerm = document
         .getElementById("searchInput")
@@ -137,7 +143,7 @@ var sortByRatingAscending = true;
 
 // Sort by percentage
 function sortByPercentage(beers) {
-    beers.sort(function(a, b) {
+    beers.sort(function (a, b) {
         if (sortByPercentageAscending) {
             return parseFloat(a.perc) - parseFloat(b.perc);
         } else {
@@ -151,7 +157,7 @@ function sortByPercentage(beers) {
 
 // Sort by rating
 function sortByRating(beers) {
-    beers.sort(function(a, b) {
+    beers.sort(function (a, b) {
         if (sortByRatingAscending) {
             return parseFloat(a.average_rating) - parseFloat(b.average_rating);
         } else {
