@@ -35,7 +35,7 @@ function fetchBeers() {
                 return b.avgRating - a.avgRating;
             });
 
-            displayBestBrewers(brewersWithAvgRating.slice(0, 10));
+            displayBestBrewers(brewersWithAvgRating.slice(0, 3));
 
             var beersByType = {};
             beers.forEach(function (beer) {
@@ -59,13 +59,13 @@ function fetchBeers() {
                 return b.avgRating - a.avgRating;
             });
 
-            displayBestTypes(typesWithAvgRating.slice(0, 10));
+            displayBestTypes(typesWithAvgRating.slice(0, 3));
 
             beers.sort(function (a, b) {
                 return b.average_rating - a.average_rating;
             });
 
-            displayBestRatings(beers.slice(0, 10));
+            displayBestRatings(beers.slice(0, 3));
 
             beers.forEach(function (beer) {
                 axios.get('http://localhost/BierAPI/comments/' + beer.beer_id)
@@ -77,7 +77,7 @@ function fetchBeers() {
                             return b.numRatings - a.numRatings;
                         });
 
-                        displayTopRatedBeers(beers.slice(0, 10));
+                        displayTopRatedBeers(beers.slice(0, 3));
                     })
                     .catch(error => {
                         console.error('Error fetching ratings:', error);

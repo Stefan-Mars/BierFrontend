@@ -2,35 +2,52 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Beer</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link
-        href="https://fonts.googleapis.com/css2?family=Antic&family=Instrument+Sans:ital,wght@0,400..700;1,400..700&family=Kodchasan:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;1,200;1,300;1,400;1,500;1,600;1,700&display=swap"
-        rel="stylesheet">
-    <link rel="stylesheet" type="text/css" href="../../css/style.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Beer</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Antic&family=Instrument+Sans:ital,wght@0,400..700;1,400..700&family=Kodchasan:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;1,200;1,300;1,400;1,500;1,600;1,700&display=swap"
+    rel="stylesheet" />
+  <link rel="stylesheet" type="text/css" href="../../css/show.css" />
+  <link rel="stylesheet" type="text/css" href="../../css/style.css" />
+  <script src="https://kit.fontawesome.com/356eec8587.js" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
 </head>
 
 <body>
-    <a href="http://localhost/BierFrontend/html/beers/">Back</a>
-    <div id="beer-details">
-        <h1>Beer Details</h1>
-        <div id="beer-info"></div>
-        <div id="comments-container">
-            <h2>Comments</h2>
-            <ul id="comments-list"></ul>
+  <div class="container">
+    <header>
+      <a href="../beers/index.html" class="back-button"><i class="fas fa-arrow-left"></i></a>
+      <h1>Beer Details</h1>
+    </header>
+    <div id="beer-info"></div>
+
+    <div id="comment-form">
+      <h2>Add a Rating</h2>
+
+      <div id="comment-form">
+        <input type="text" id="comment-input" placeholder="Enter your Review">
+        <div class="rating-container">
+          <div class="star" id="1star">&#9734;</div>
+          <div class="star" id="2star">&#9734;</div>
+          <div class="star" id="3star">&#9734;</div>
+          <div class="star" id="4star">&#9734;</div>
+          <div class="star" id="5star">&#9734;</div>
         </div>
-        <div id="comment-form">
-            <h2>Add a Comment</h2>
-            <input type="text" id="comment-input" placeholder="Enter your comment">
-            <button onclick="addComment()">Submit</button>
-        </div>
+        <button id="comment-button" onclick="addComment()">Submit</button>
+        <a id="comment-login-text" href="../users/login.html">You need to login to place a rating</a>
+      </div>
+      <div id="comments-container">
+
+        <ul id="comments-list"></ul>
+      </div>
     </div>
 
-    <script src="../../js/beers/show.js"></script>
 
+    <script src="../../js/beers/show.js"></script>
 </body>
 
 </html>

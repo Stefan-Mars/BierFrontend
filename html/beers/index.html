@@ -1,39 +1,46 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Beer</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Antic&family=Instrument+Sans:ital,wght@0,400..700;1,400..700&family=Kodchasan:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;1,200;1,300;1,400;1,500;1,600;1,700&display=swap"
-      rel="stylesheet"
-    />
-    <link rel="stylesheet" type="text/css" href="../../css/style.css" />
-  </head>
-  <body>
-    <header>
-      <h1>Beer Catalog</h1>
-      <br />
-    </header>
-    <nav>
-      <div class="navbar">
-        <a href="#">Home</a>
-        <a href="../RapportPage.html">Rapport</a>
-        <a id="login" href="../users/login.html">Login</a>
-        <a id="logout" href="#" onclick="logout()">Logout</a>
-      </div>
-    </nav>
-    <div id="searchContainer">
-      <input
-        type="text"
-        id="searchInput"
-        oninput="filterBeers()"
-        placeholder="Search by name..."
-      />
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Beer</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Antic&family=Instrument+Sans:ital,wght@0,400..700;1,400..700&family=Kodchasan:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;1,200;1,300;1,400;1,500;1,600;1,700&display=swap"
+    rel="stylesheet" />
+  <link rel="stylesheet" type="text/css" href="../../css/style.css" />
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
+</head>
+
+<body>
+  <header>
+    <h1>Hoptimistisch <a href="../beergame/index.html"><img src="img/diagonalbeer.png" style="width:2%;"></a> </h1>
+    <br />
+  </header>
+  <nav>
+    <div class="navbar">
+      <a href="#">Home</a>
+      <a  href="../Statistics.html">Statistics</a>
+      <a href="../RapportPage.html">Rapport</a>
+      <a id="login" href="../users/login.html">Login</a>
+      <a id="logout" href="#" onclick="logout()">Logout</a>
     </div>
-    <div id="beer-container"></div>
-    <script src="../../js/beers/index.js"></script>
-  </body>
-</html>
+  </nav>
+  <div id="searchContainer">
+    <div class="dropdown">
+      <button class="dropbtn" onclick="toggleDropdown()">Sort by</button>
+      <div id="sortDropdown" class="dropdown-content">
+        <a href="#" onclick="sortByPercentage(allBeers)">Percentage</a>
+        <a href="#" onclick="sortByRating(allBeers)">Rating</a>
+      </div>
+    </div>
+    <input type="text" id="searchInput" oninput="filterBeers()" placeholder="Search by name...">
+  </div>
+  <div id="beer-container"></div>
+  <script src="../../js/beers/index.js"></script>
+</body>
+
+</html

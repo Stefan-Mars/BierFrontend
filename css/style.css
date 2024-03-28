@@ -1,13 +1,10 @@
-/* style.css */
-
-/* Body styles */
 body {
     padding: 20px;
     font-family: "Instrument Sans", sans-serif;
     margin: 0;
+    background-color: #ebe8e8;
 }
 
-/* Header styles */
 header {
     text-align: center;
 }
@@ -16,7 +13,6 @@ h1 {
     margin: 0;
 }
 
-/* Navigation bar styles */
 nav {
     text-align: center;
     margin-bottom: 20px;
@@ -36,40 +32,85 @@ nav {
 }
 
 .navbar a:hover {
-    background-color: #ccc;
+    background-color: #ffcc00;
 }
 
-/* Search bar styles */
 #searchContainer {
-    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     margin: 20px auto;
+    margin-left: 5px;
 }
 
 #searchInput {
-    width: 60%;
+    width: calc(60% - 5px);
+    margin-right: 5px;
     padding: 10px;
     box-sizing: border-box;
+    border-radius: 10px;
+    box-shadow: 0px 0px 1px rgba(0, 0, 0, 0.1);
 }
 
-/* Beer tile styles */
 #beer-container {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
 }
 
+.dropdown {
+    float: left;
+    position: relative;
+    margin-right: 10px;
+}
+
+.dropbtn {
+    padding: 10px 20px;
+    border-radius: 10px;
+    background-color: #ffcc00;
+    cursor: pointer;
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #f9f9f9;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+    z-index: 1;
+    border-radius: 10px;
+}
+
+.dropdown-content a {
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+    border-radius: 10px;
+}
+
+.dropdown-content a:hover {
+    background-color: #ffcc00;
+}
+
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+
 .beer-tile {
     width: 250px;
     height: 310px;
-    box-shadow: 0px 0px 1px 1px gray;
+    border-radius: 10px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
     margin: 10px;
     padding: 10px;
-    cursor: pointer;
     overflow: auto;
+    background-color: #f9f9f9;
 }
 
 .beer-tile h2 {
     margin-top: 0;
+    color: #000000;
 }
 
 .beer-name {
@@ -77,7 +118,24 @@ nav {
     cursor: pointer;
 }
 
-.beer-name:hover { 
+.beer-name:hover {
     scale: 1.05;
     transition: 0.3s;
+}
+
+.star {
+    display: inline-block;
+    font-size: 24px;
+    cursor: pointer;
+    color: #ffcc00;
+    position: relative;
+}
+
+.star.filled:before {
+    content: '\2605';
+    position: absolute;
+    left: 0;
+    top: 0;
+    color: gold;
+
 }

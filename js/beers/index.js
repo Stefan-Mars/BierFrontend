@@ -1,58 +1,46 @@
+var allBeers = [];
 
-    var allBeers = [];
-
-    function logout() {
-        fetch('http://localhost/BierAPI/logout', {
-            method: 'POST',
-            credentials: 'same-origin' 
-        })
+function fetchBeers() {
+    axios.get("http://localhost/BierAPI/beers")
         .then(response => {
-            if (response.ok) {
-    
-                console.log('Logout successful.');
-    
+            allBeers = response.data;
+            displayBeers(allBeers);
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
+}
+
+function logout() {
+    axios.post('http://localhost/BierAPI/logout', null, {
+        withCredentials: true
+    })
+        .then(response => {
+            if (response.status === 200) {
+                console.log('Uitloggen gelukt.');
                 window.location.href = '../beers/index.html';
             } else {
-                console.error('Logout failed.');
+                console.error('Uitloggen is mislukt.');
             }
         })
         .catch(error => {
             console.error('Error:', error);
         });
-    }
-function checkLoginStatus() {
-    fetch('http://localhost/BierAPI/checkLogin')
-    .then(response => response.json())
-    .then(data => {
-        if (data.logged_in) {
-            
-            document.getElementById('logout').style.display = 'block';
-            document.getElementById('login').style.display = 'none';
-            return true;
-        } else {
-           
-            document.getElementById('login').style.display = 'block';
-            document.getElementById('logout').style.display = 'none';
-            return false;
-        }
-    })
-    .catch(error => {
-        console.error('Error:', error);
-    });
 }
 
-    function fetchBeers() {
-    var xhr = new XMLHttpRequest();
-    xhr.open("GET", "http://localhost/BierAPI/beers", true);
-    xhr.onreadystatechange = function () {
-        if (xhr.readyState === 4 && xhr.status === 200) {
-            var beers = JSON.parse(xhr.responseText);
-            allBeers = beers;
-            displayBeers(beers);
-        }
-    };
-    xhr.send();
+function formatNumberWithComma(number, numbersafterComma) {
+    number = parseFloat(number);
+    if (!isNaN(number)) {
+        return number.toFixed(numbersafterComma).replace('.', ',');
+    } else {
+        return '0';
+    }
 }
+function DecimalToPercentage(number) {
+    let percentage = number * 100;
+    return percentage;
+}
+
 
 function displayBeers(beers) {
     var beerContainer = document.getElementById("beer-container");
@@ -62,52 +50,84 @@ function displayBeers(beers) {
             var beerTile = document.createElement("div");
             beerTile.className = "beer-tile";
             beerTile.innerHTML =
+                '<div class="rating-container">' +
+                generateRatingStars(beer.average_rating, beer.id) + ' (' +
+                formatNumberWithComma(beer.average_rating, 1) + ")</div>" +
                 '<h2 class="beer-name">' +
                 beer.name +
                 "</h2>" +
-                "<p>Brewer: " +
+                "<p>Brouwer: " +
                 beer.brewer +
                 "</p>" +
                 "<p>Type: " +
                 beer.type +
                 "</p>" +
-                "<p>Yeast: " +
+                "<p>Gist: " +
                 beer.yeast +
                 "</p>" +
-                "<p>Percentage: " +
-                beer.perc +
-                "</p>" +
-                "<p>Purchase Price: " +
-                beer.purchase_price +
-                "</p>" +
-                '<div class="rating-container">' +
-                generateRatingStars(beer.rating) +
-                "</div>";
-            
+                "<p>Procent: " +
+                formatNumberWithComma(DecimalToPercentage(beer.perc), 1) +
+                "%</p>" +
+                "<p>Aankoopprijs: €" +
+                formatNumberWithComma(beer.purchase_price, 2) +
+                "</p>";
+
             var beerNameElement = beerTile.querySelector('.beer-name');
             beerNameElement.onclick = function () {
-                window.location.href = "show.html?id=" + beer.id;
+                window.location.href = "show.html?id=" + beer.beer_id;
             };
-            
+
             beerContainer.appendChild(beerTile);
         });
     } else {
-        beerContainer.innerHTML = "<p>No beers found</p>";
+        beerContainer.innerHTML = "<p>Geen bier gevonden</p>";
     }
 }
 
-function generateRatingStars(rating) {
+function generateRatingStars(rating, beerId) {
     var stars = "";
     for (var i = 1; i <= 5; i++) {
         if (i <= rating) {
-            stars += '<span class="star" data-rating="' + i + '">★</span>';
+            stars += '<span class="star" data-rating="' + i + '" data-beer-id="' + beerId + '">★</span>';
         } else {
-            stars += '<span class="star" data-rating="' + i + '">☆</span>';
+            stars += '<span class="star" data-rating="' + i + '" data-beer-id="' + beerId + '">☆</span>';
         }
     }
     return stars;
 }
-    function filterBeers() {
+
+document.addEventListener("DOMContentLoaded", function () {
+    checkLoginStatus()
+        .then(loggedIn => {
+            if (loggedIn) {
+                document.getElementById("login").style.display = "none";
+                document.getElementById("logout").style.display = "inline";
+            } else {
+                document.getElementById("login").style.display = "inline";
+                document.getElementById("logout").style.display = "none";
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
+});
+
+
+function checkLoginStatus() {
+    return axios.get('http://localhost/BierAPI/checkLogin')
+        .then(response => {
+            if (response.data.logged_in) {
+
+                return true;
+            } else {
+                return false;
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
+}
+function filterBeers() {
     var searchTerm = document
         .getElementById("searchInput")
         .value.trim()
@@ -116,10 +136,40 @@ function generateRatingStars(rating) {
         return beer.name.toLowerCase().includes(searchTerm);
     });
     displayBeers(filteredBeers);
-    }
+}
 
+var sortByPercentageAscending = true;
+var sortByRatingAscending = true;
 
-window.onload = function() {
-    checkLoginStatus()
-    fetchBeers()
-};
+var sortByPercentageAscending = true;
+var sortByRatingAscending = true;
+
+function sortByPercentage(beers) {
+    beers.sort(function (a, b) {
+        if (sortByPercentageAscending) {
+            return parseFloat(a.perc) - parseFloat(b.perc);
+        } else {
+            return parseFloat(b.perc) - parseFloat(a.perc);
+        }
+    });
+    sortByPercentageAscending = !sortByPercentageAscending;
+    sortByRatingAscending = true;
+    displayBeers(beers);
+}
+
+function sortByRating(beers) {
+    beers.sort(function (a, b) {
+        var ratingA = parseFloat(a.average_rating);
+        var ratingB = parseFloat(b.average_rating);
+        // console.log("Rating A:", ratingA, "Rating B:", ratingB);
+        if (sortByRatingAscending) {
+            return ratingA - ratingB;
+        } else {
+            return ratingB - ratingA;
+        }
+    });
+    sortByRatingAscending = !sortByRatingAscending;
+    sortByPercentageAscending = true;
+    displayBeers(beers);
+}
+window.onload = fetchBeers;
