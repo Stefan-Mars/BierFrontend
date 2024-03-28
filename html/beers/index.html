@@ -23,21 +23,21 @@
   <nav>
     <div class="navbar">
       <a href="#">Home</a>
+      <a  href="../Statistics.html">Statistics</a>
       <a href="../RapportPage.html">Rapport</a>
       <a id="login" href="../users/login.html">Login</a>
       <a id="logout" href="#" onclick="logout()">Logout</a>
     </div>
   </nav>
   <div id="searchContainer">
-         <input
-        type="text"
-        id="searchInput"
-        oninput="filterBeers()"
-        placeholder="Search by name..."
-      />  </div>
-<div id="sortButtons">
-    <button onclick="sortByPercentage(allBeers)">Sort by Percentage</button>
-    <button onclick="sortByRating(allBeers)">Sort by Rating</button>
+    <div class="dropdown">
+      <button class="dropbtn" onclick="toggleDropdown()">Sort by</button>
+      <div id="sortDropdown" class="dropdown-content">
+        <a href="#" onclick="sortByPercentage(allBeers)">Percentage</a>
+        <a href="#" onclick="sortByRating(allBeers)">Rating</a>
+      </div>
+    </div>
+    <input type="text" id="searchInput" oninput="filterBeers()" placeholder="Search by name...">
   </div>
   <div id="beer-container"></div>
   <script src="../../js/beers/index.js"></script>

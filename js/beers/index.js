@@ -141,7 +141,9 @@ function filterBeers() {
 var sortByPercentageAscending = true;
 var sortByRatingAscending = true;
 
-// Sort by percentage
+var sortByPercentageAscending = true;
+var sortByRatingAscending = true;
+
 function sortByPercentage(beers) {
     beers.sort(function (a, b) {
         if (sortByPercentageAscending) {
@@ -151,22 +153,23 @@ function sortByPercentage(beers) {
         }
     });
     sortByPercentageAscending = !sortByPercentageAscending;
-    sortByRatingAscending = true; // Reset sorting order for rating
+    sortByRatingAscending = true;
     displayBeers(beers);
 }
 
-// Sort by rating
 function sortByRating(beers) {
     beers.sort(function (a, b) {
+        var ratingA = parseFloat(a.average_rating);
+        var ratingB = parseFloat(b.average_rating);
+        console.log("Rating A:", ratingA, "Rating B:", ratingB);
         if (sortByRatingAscending) {
-            return parseFloat(a.average_rating) - parseFloat(b.average_rating);
+            return ratingA - ratingB;
         } else {
-            return parseFloat(b.average_rating) - parseFloat(a.average_rating);
+            return ratingB - ratingA;
         }
     });
     sortByRatingAscending = !sortByRatingAscending;
-    sortByPercentageAscending = true; // Reset sorting order for percentage
+    sortByPercentageAscending = true;
     displayBeers(beers);
 }
-
 window.onload = fetchBeers;
